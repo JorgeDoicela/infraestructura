@@ -1,0 +1,10 @@
+---
+- name: Aprovisionar y endurecer servidores base
+  hosts: servers
+  become: true
+  gather_facts: true
+
+  roles:
+    - role: swap
+    - role: base_hardening
+    - role: docker

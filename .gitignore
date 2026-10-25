@@ -1,0 +1,82 @@
+# ==============================================================================
+# GitIgnore - Infraestructura como Codigo (IaC)
+# ==============================================================================
+
+# ------------------------------------------------------------------------------
+# OpenTofu / Terraform
+# ------------------------------------------------------------------------------
+# Archivos de estado local (CONTIENEN SECRETOS Y METADATOS EN TEXTO PLANO)
+*.tfstate
+*.tfstate.*
+*.tfstate.backup
+
+# Archivos de variables con secretos reales
+*.tfvars
+*.tfvars.json
+!*.example.tfvars
+
+# Directorio de inicializacion y plugins
+.terraform/
+.tofu/
+
+# Registros de depuracion y fallos
+crash.log
+crash.*.log
+
+# Overrides locales
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+
+# ------------------------------------------------------------------------------
+# Ansible
+# ------------------------------------------------------------------------------
+# Archivos de reintento tras fallo
+*.retry
+
+# Claves de descifrado de Ansible Vault en texto plano
+.vault-pass*
+*.vault-key
+vault-password.txt
+
+# Directorios temporales y colecciones locales
+.ansible/
+collections/
+ansible.log
+
+# ------------------------------------------------------------------------------
+# Secretos, Credenciales y Entorno
+# ------------------------------------------------------------------------------
+*.pem
+*.key
+*.pub.local
+id_rsa*
+id_ed25519*
+!id_*.example
+*.pfx
+*.p12
+
+# Archivos de variables de entorno
+.env
+.env.*
+!.env.example
+
+# ------------------------------------------------------------------------------
+# Docker y Contenedores
+# ------------------------------------------------------------------------------
+# Volúmenes de datos montados localmente
+workloads/**/data/
+workloads/**/acme.json
+
+# ------------------------------------------------------------------------------
+# Sistema Operativo y Editores
+# ------------------------------------------------------------------------------
+.DS_Store
+Thumbs.db
+*~
+*.swp
+*.swo
+.idea/
+.vscode/
+*.code-workspace

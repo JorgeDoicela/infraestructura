@@ -1,0 +1,38 @@
+---
+- name: Verificar si el archivo de swap ya existe
+  ansible.builtin.stat:
+    path: "{{ swap_file_path }}"
+  register: swap_stat
+
+- name: Crear archivo de swap con fallocate
+  ansible.builtin.command:
+    cmd: "fallocate -l {{ swap_size_gb }}G {{ swap_file_path }}"
+  when: not swap_stat.stat.exists
+  changed_when: true
+
+- name: Asignar permisos estrictos al swapfile (0600)
+  ansible.builtin.file:
+    path: "{{ swap_file_path }}"
+    owner: root
+    group: root
+    mode: '0600'
+
+- name: Formatear swapfile
+  ansible.builtin.command:
+    cmd: "mkswap {{ swap_file_path }}"
+  when: not swap_stat.stat.exists
+  changed_when: true
+
+- name: Activar swapfile
+  ansible.builtin.command:
+    cmd: "swapon {{ swap_file_path }}"
+  when: not swap_stat.stat.exists
+  changed_when: true
+
+- name: Registrar swapfile en /etc/fstab de forma persistente
+  ansible.posix.mount:
+    path: none
+    src: "{{ swap_file_path }}"
+    fstype: swap
+    opts: sw
+    state: present

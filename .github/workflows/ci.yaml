@@ -1,0 +1,38 @@
+name: CI Infraestructura
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  validate-yaml:
+    name: Validar sintaxis YAML
+    runs-on: ubuntu-latest
+    steps:
+      - name: Clonar repositorio
+        uses: actions/checkout@v4
+
+      - name: Instalar yamllint
+        run: sudo apt-get update && sudo apt-get install -y yamllint
+
+      - name: Ejecutar yamllint sobre Ansible y Workloads
+        run: |
+          yamllint -d "{extends: relaxed, rules: {line-length: {max: 180}}}" ansible/ workloads/
+
+  validate-tofu:
+    name: Validar sintaxis OpenTofu
+    runs-on: ubuntu-latest
+    steps:
+      - name: Clonar repositorio
+        uses: actions/checkout@v4
+
+      - name: Instalar OpenTofu
+        uses: opentofu/setup-opentofu@v1
+        with:
+          tofu_version: 1.8.2
+
+      - name: Formato y validacion de archivos Tofu
+        run: |
+          tofu fmt -check -recursive tofu/

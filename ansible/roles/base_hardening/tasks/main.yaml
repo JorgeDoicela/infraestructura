@@ -1,0 +1,49 @@
+---
+- name: Actualizar cache de APT e instalar paquetes esenciales de sistema
+  ansible.builtin.apt:
+    update_cache: true
+    cache_valid_time: 3600
+    pkg:
+      - ufw
+      - fail2ban
+      - curl
+      - htop
+      - git
+      - ca-certificates
+      - gnupg
+    state: present
+
+- name: Endurecer configuracion de SSH daemon
+  ansible.builtin.lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: "{{ item.regexp }}"
+    line: "{{ item.line }}"
+    state: present
+    validate: '/usr/sbin/sshd -t -f %s'
+  loop:
+    - { regexp: '^#?PermitRootLogin', line: 'PermitRootLogin {{ permit_root_login }}' }
+    - { regexp: '^#?PasswordAuthentication', line: 'PasswordAuthentication {{ password_authentication }}' }
+    - { regexp: '^#?X11Forwarding', line: 'X11Forwarding no' }
+  notify: Reiniciar SSH
+
+- name: Configurar politicas por defecto en UFW
+  community.general.ufw:
+    direction: "{{ item.direction }}"
+    policy: "{{ item.policy }}"
+  loop:
+    - { direction: 'incoming', policy: 'deny' }
+    - { direction: 'outgoing', policy: 'allow' }
+
+- name: Permitir trafico esencial en UFW (SSH, HTTP, HTTPS)
+  community.general.ufw:
+    rule: limit
+    port: "{{ item }}"
+    proto: tcp
+  loop:
+    - "{{ ssh_port }}"
+    - "80"
+    - "443"
+
+- name: Habilitar servicio de firewall UFW
+  community.general.ufw:
+    state: enabled
