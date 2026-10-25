@@ -1,7 +1,7 @@
 services:
   traefik:
     image: traefik:v3.1
-    container_name: traefik_edge
+    container_name: personal_traefik_edge
     restart: unless-stopped
     security_opt:
       - no-new-privileges:true
@@ -21,4 +21,4 @@ services:
 networks:
   web_gateway:
     name: web_gateway
-    driver: bridge
+    external: true

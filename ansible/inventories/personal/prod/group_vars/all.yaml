@@ -1,5 +1,7 @@
 ---
-# Variables globales para el grupo de servidores de produccion
+# Variables globales para servidores de proyectos personales
+context: "personal"
+environment: "prod"
 timezone: "UTC"
 
 # Parametros de Hardening SSH
@@ -7,7 +9,7 @@ ssh_port: 22
 permit_root_login: "no"
 password_authentication: "no"
 
-# Configuracion de Swap (Host Inmaculado)
+# Configuracion de Swap (4 GB)
 swap_size_gb: 4
 swap_file_path: "/swapfile"
 
@@ -15,3 +17,6 @@ swap_file_path: "/swapfile"
 docker_data_root: "/var/lib/docker"
 docker_log_max_size: "50m"
 docker_log_max_file: "3"
+
+# Configuracion de Traefik Edge
+traefik_acme_email: "jorge@personal.dev"

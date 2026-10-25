@@ -1,0 +1,10 @@
+---
+all:
+  children:
+    work_staging_servers:
+      hosts:
+        work-srv-staging-01:
+          ansible_host: 203.0.113.100 # Reemplazar con la IP publica exportada por OpenTofu
+          ansible_user: deploy
+          ansible_port: 22
+          ansible_python_interpreter: /usr/bin/python3

@@ -1,0 +1,19 @@
+---
+- name: Desplegar y actualizar cargas de trabajo Docker en servidores
+  hosts: all
+  become: true
+  gather_facts: false
+
+  vars:
+    app_target_dir: "/opt/workloads"
+
+  tasks:
+    - name: Asegurar que el directorio de cargas de trabajo existe
+      ansible.builtin.file:
+        path: "{{ app_target_dir }}"
+        state: directory
+        mode: '0755'
+
+    - name: Notificar estado de despliegue
+      ansible.builtin.debug:
+        msg: "Servidor {{ inventory_hostname }} listo para recibir docker compose en {{ app_target_dir }}"

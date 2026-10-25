@@ -1,0 +1,19 @@
+services:
+  work_api_prod:
+    image: nginx:alpine
+    container_name: work_api_prod
+    restart: unless-stopped
+    networks:
+      - web_gateway
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.work_api_prod.rule=Host(`api.empresa.com`)"
+      - "traefik.http.routers.work_api_prod.entrypoints=websecure"
+      - "traefik.http.routers.work_api_prod.tls=true"
+      - "traefik.http.routers.work_api_prod.tls.certresolver=letsencrypt"
+      - "traefik.http.services.work_api_prod.loadbalancer.server.port=80"
+
+networks:
+  web_gateway:
+    name: web_gateway
+    external: true

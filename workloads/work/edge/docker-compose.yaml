@@ -1,0 +1,24 @@
+services:
+  traefik:
+    image: traefik:v3.1
+    container_name: work_traefik_edge
+    restart: unless-stopped
+    security_opt:
+      - no-new-privileges:true
+    ports:
+      - "80:80"
+      - "443:443"
+    environment:
+      - TZ=UTC
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ./data/traefik.yml:/etc/traefik/traefik.yml:ro
+      - ./data/acme.json:/acme.json
+    networks:
+      - web_gateway
+
+networks:
+  web_gateway:
+    name: web_gateway
+    external: true

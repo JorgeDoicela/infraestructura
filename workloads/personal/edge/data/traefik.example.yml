@@ -1,0 +1,30 @@
+# Configuracion estatica de Traefik para proyectos personales
+api:
+  dashboard: false
+  insecure: false
+
+entryPoints:
+  web:
+    address: ":80"
+    http:
+      redirections:
+        entryPoint:
+          to: websecure
+          scheme: https
+          permanent: true
+
+  websecure:
+    address: ":443"
+
+providers:
+  docker:
+    endpoint: "unix:///var/run/docker.sock"
+    exposedByDefault: false
+    network: "web_gateway"
+
+certificatesResolvers:
+  letsencrypt:
+    acme:
+      email: "tu-email@personal.dev"
+      storage: "/acme.json"
+      tlsChallenge: {}

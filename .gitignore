@@ -65,9 +65,11 @@ id_ed25519*
 # ------------------------------------------------------------------------------
 # Docker y Contenedores
 # ------------------------------------------------------------------------------
-# Volúmenes de datos montados localmente
-workloads/**/data/
+# Volúmenes de datos montados localmente y certificados
 workloads/**/acme.json
+workloads/**/data/*.json
+workloads/**/data/certs/
+!workloads/**/data/*.example.*
 
 # ------------------------------------------------------------------------------
 # Sistema Operativo y Editores

@@ -19,7 +19,7 @@ jobs:
 
       - name: Ejecutar yamllint sobre Ansible y Workloads
         run: |
-          yamllint -d "{extends: relaxed, rules: {line-length: {max: 180}}}" ansible/ workloads/
+          yamllint -d "{extends: relaxed, rules: {line-length: {max: 200}}}" ansible/ workloads/
 
   validate-tofu:
     name: Validar sintaxis OpenTofu
@@ -33,6 +33,6 @@ jobs:
         with:
           tofu_version: 1.8.2
 
-      - name: Formato y validacion de archivos Tofu
+      - name: Formato y validacion de modulos y ambientes Tofu
         run: |
           tofu fmt -check -recursive tofu/

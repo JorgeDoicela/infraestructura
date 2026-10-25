@@ -1,0 +1,22 @@
+---
+# Variables globales para entorno corporativo de Staging
+context: "work"
+environment: "staging"
+timezone: "UTC"
+
+# Parametros de Hardening SSH
+ssh_port: 22
+permit_root_login: "no"
+password_authentication: "no"
+
+# Configuracion de Swap (4 GB)
+swap_size_gb: 4
+swap_file_path: "/swapfile"
+
+# Configuracion de Docker
+docker_data_root: "/var/lib/docker"
+docker_log_max_size: "50m"
+docker_log_max_file: "3"
+
+# Configuracion de Traefik Edge Staging
+traefik_acme_email: "devops@empresa.com"

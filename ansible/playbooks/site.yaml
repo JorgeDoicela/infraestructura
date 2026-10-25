@@ -1,6 +1,6 @@
 ---
-- name: Aprovisionar y endurecer servidores base
-  hosts: servers
+- name: Aprovisionar, endurecer e inicializar Docker en el servidor
+  hosts: all
   become: true
   gather_facts: true
 
@@ -8,3 +8,4 @@
     - role: swap
     - role: base_hardening
     - role: docker
+    - role: traefik_bootstrap

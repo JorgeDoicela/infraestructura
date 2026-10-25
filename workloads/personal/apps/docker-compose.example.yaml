@@ -1,0 +1,19 @@
+services:
+  personal_app:
+    image: nginx:alpine
+    container_name: personal_app
+    restart: unless-stopped
+    networks:
+      - web_gateway
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.personal_app.rule=Host(`app.tudominio.com`)"
+      - "traefik.http.routers.personal_app.entrypoints=websecure"
+      - "traefik.http.routers.personal_app.tls=true"
+      - "traefik.http.routers.personal_app.tls.certresolver=letsencrypt"
+      - "traefik.http.services.personal_app.loadbalancer.server.port=80"
+
+networks:
+  web_gateway:
+    name: web_gateway
+    external: true

@@ -1,0 +1,22 @@
+---
+# Variables globales para entorno corporativo de Produccion
+context: "work"
+environment: "prod"
+timezone: "UTC"
+
+# Parametros de Hardening SSH
+ssh_port: 22
+permit_root_login: "no"
+password_authentication: "no"
+
+# Configuracion de Swap (8 GB en servidores de produccion)
+swap_size_gb: 8
+swap_file_path: "/swapfile"
+
+# Configuracion de Docker
+docker_data_root: "/var/lib/docker"
+docker_log_max_size: "100m"
+docker_log_max_file: "5"
+
+# Configuracion de Traefik Edge Produccion
+traefik_acme_email: "security@empresa.com"

@@ -1,0 +1,19 @@
+services:
+  work_api_staging:
+    image: nginx:alpine
+    container_name: work_api_staging
+    restart: unless-stopped
+    networks:
+      - web_gateway
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.work_api_staging.rule=Host(`staging-api.empresa.com`)"
+      - "traefik.http.routers.work_api_staging.entrypoints=websecure"
+      - "traefik.http.routers.work_api_staging.tls=true"
+      - "traefik.http.routers.work_api_staging.tls.certresolver=letsencrypt"
+      - "traefik.http.services.work_api_staging.loadbalancer.server.port=80"
+
+networks:
+  web_gateway:
+    name: web_gateway
+    external: true
